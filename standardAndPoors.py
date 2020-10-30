@@ -2,15 +2,16 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
+#from selenium.webdriver.common.keys import Keys
+#from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 from pathlib import Path
-import time
+#import time
 import pandas as pd
-from selenium.webdriver.common.by import By
+#from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+from itertools import chain
 
 
 def configure_driver():
@@ -54,24 +55,34 @@ def getCourses(driver, search_keyword):
     # Step 2: Create a parse tree of page sources after searching
     soup = BeautifulSoup(driver.page_source, "lxml")
     #print(soup)
-    rows=soup.findAll("tr")
-    for row in rows:
-        print(row)
+    #rows=soup.findAll("tr")
 
+   # headers=soup.findAll("th")
+    #for header in headers:
+     #   print(header)
 
-    # Step 3: Iterate over the search result and fetch the course
- #   for course_page in soup.select("div.search-results-page"):
-  #      for course in course_page.select("div.search-result"):
-   #         title_selector = "div.search-result__info div.search-result__title a"
-    #        author_selector = "div.search-result__details div.search-result__author"
-     #       level_selector = "div.search-result__details div.search-result__level"
-      #      length_selector = "div.search-result__details div.search-result__length"
-       #     print({
-        #        "title": course.select_one(title_selector).text,
-         #       "author": course.select_one(author_selector).text,
-          #      "level": course.select_one(level_selector).text,
-           #     "length": course.select_one(length_selector).text,
-            #})
+    table = soup.find('table')
+
+    headerList=[]
+    table_headers = table.find_all('th')
+    for th in table_headers:
+        col = th.find_all('span')
+        row = [i.text for i in col]
+        headerList.append(row)
+
+    headerList=list(chain.from_iterable(headerList))
+    #print(headerList)
+
+    rowList=[]
+    table_rows = table.find_all('tr')
+    for tr in table_rows:
+        td = tr.find_all('td')
+        row = [i.text for i in td]
+        rowList.append(row)
+
+    df = pd.DataFrame(rowList,columns=headerList)
+    df.to_csv ('sandp.csv', index = False, header=True)
+
 
 # create the driver object.
 driver = configure_driver()
