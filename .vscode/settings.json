@@ -1,4 +1,5 @@
 {
     "python.envFile": "${workspaceRoot}/.env",
-    "python.pythonPath": "${env:PYTHON_INSTALL_LOC}" 
+    "python.pythonPath": "${env:PYTHON_INSTALL_LOC}",
+    "python.dataScience.jupyterServerURI": "local"
 }

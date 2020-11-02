@@ -1,8 +1,15 @@
-backtrader==1.9.76.123
 matplotlib==3.3.2
 scikit-learn==0.23.2
 scipy==1.5.2
 Scrapy==2.3.0
 selenium==3.141.0
 BeautifulSoup4==4.9.3
-loguru==0.5.3
+plotly==4.3.0 
+pandas-profiling==0.25.3
+statsmodels==0.12.1
+scipy==1.5.2
+numpy==1.17.4
+pandas==0.25.3
+python-dateutil==2.8.1
+
+\
