@@ -135,5 +135,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
+s
 .DS_Store
+
+/share
+/etc
